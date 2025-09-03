@@ -20,6 +20,7 @@ export interface ElevationProfileModelProperties
     profileLineGround?: boolean;
     profileLineInput?: boolean;
     profileLineView?: boolean;
+    profileLineQuery?: boolean;
     profileLineGroundColor?: string;
     profileLineInputColor?: string;
     profileLineViewColor?: string;
@@ -40,6 +41,7 @@ export default class ElevationProfileModel extends ComponentModelBase<ElevationP
     profileLineGround: boolean;
     profileLineInput: boolean;
     profileLineView: boolean;
+    profileLineQuery: boolean;
     profileLineGroundColor?: string;
     profileLineInputColor?: string;
     profileLineViewColor?: string;
@@ -93,6 +95,10 @@ export default class ElevationProfileModel extends ComponentModelBase<ElevationP
                 default: true,
             },
             profileLineView: {
+                serializeModes: ["initial"],
+                default: true,
+            },
+            profileLineQuery: {
                 serializeModes: ["initial"],
                 default: true,
             },

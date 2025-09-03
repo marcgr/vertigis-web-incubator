@@ -1,7 +1,9 @@
 import type Accessor from "@arcgis/core/core/Accessor";
+import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import ElevationProfileWidget from "@arcgis/core/widgets/ElevationProfile";
 import ElevationProfileLineGround from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineGround";
 import ElevationProfileLineInput from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineInput";
+import ElevationProfileLineQuery from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineQuery";
 import ElevationProfileLineView from "@arcgis/core/widgets/ElevationProfile/ElevationProfileLineView";
 import { useWatchAndRerender } from "@vertigis/web/ui";
 import type { MapWidgetProps } from "@vertigis/web/ui/esriUtils";
@@ -48,6 +50,7 @@ export default function ElevationProfile(
         if (!widget) {
             return;
         }
+
         widget.label = model.title;
         widget.visibleElements = {
             legend: model.legend,
@@ -59,6 +62,17 @@ export default function ElevationProfile(
             uniformChartScalingToggle: model.uniformChartScalingToggle,
         };
         widget.profiles.removeAll();
+        if (model.profileLineQuery) {
+            const elevationLayer = new ElevationLayer({
+                url: "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer",
+            });
+            widget.profiles.add(
+                new ElevationProfileLineQuery({
+                    color: model.profileLineInputColor,
+                    source: elevationLayer,
+                })
+            );
+        }
         if (model.profileLineGround) {
             widget.profiles.add(
                 new ElevationProfileLineGround({
@@ -86,6 +100,7 @@ export default function ElevationProfile(
         model.profileLineGround,
         model.profileLineInput,
         model.profileLineView,
+        model.profileLineQuery,
         model.legend,
         model.chart,
         model.clearButton,
@@ -98,9 +113,9 @@ export default function ElevationProfile(
         model.profileLineViewColor,
     ]);
 
-    if (map.viewMode === "map") {
-        return null;
-    }
+    // if (map.viewMode === "map") {
+    //     return null;
+    // }
 
     return (
         <ElevationProfileWidgetWrapper

@@ -57,5 +57,9 @@
     "lint-staged": {
         "*.{js,json,ts,tsx,md,css,scss}": "prettier --write"
     },
-    "packageManager": "yarn@4.2.2"
+    "packageManager": "yarn@4.2.2",
+    "dependencies": {
+        "@vertigis/web-sdk": "^2.0.0",
+        "style-loader": "^4.0.0"
+    }
 }
